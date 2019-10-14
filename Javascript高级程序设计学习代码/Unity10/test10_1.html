@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOM</title>
+</head>
+<body>
+	<div id="myDiv" style="background: #58a;height: 50px;width: 50px;"></div>
+	<h1>element类型</h1>
+	<h2>getAttribute()获取属性值</h2>
+	<h2>setAttribute()设置属性</h2>
+	<h2>removeAttribute()彻底删除元素的特性</h2>
+	<h2>attributes属性</h2>
+	<ol>
+		<li>getNamedItem(name)返回nodeName属性等于name的节点</li>
+		<li>removeNamedItem(name)从列表中移除nodeName属性等于name的节点</li>
+		<li>setNamedItem(name)向列表中添加nodeName属性等于name的节点</li>
+		<li>item(pos)返回位于位置pos处的节点</li>
+	</ol>
+<script>
+//**element类型
+	//******getAttribute()获取属性值
+	var div = document.getElementById("myDiv");	//CSSStyleDeclaration
+	console.log(div.style);
+	console.log(div.getAttribute("style"));	//background: #58a;height: 50px;width: 50px;
+	//******setAttribute()设置属性
+	div.setAttribute("title","test"); //将title属性的值设置为test
+	//*****removeAttribute()彻底删除元素的特性
+	//*****attributes属性
+		//属性中包含一系列节点，每个节点的nodeName是特性的名称，ndoeValue是特性的值
+	var id = div.attributes.getNamedItem("id").nodeValue;
+	console.log(id);
+	//将特性遍历并生成数组
+	function outputAttributes(element){
+		var pairs = new Array(),attrName,attrValue;
+		for(var i=0;i<element.attributes.length;i++){
+			attrName = element.attributes[i].nodeName;
+			attrValue = element.attributes[i].nodeValue;
+			if(element.attributes[i].specified){
+				pairs.push(attrName+"=\""+attrValue+"\"");
+			}
+		}
+		return pairs.join(" ");
+	}
+	console.log(outputAttributes(div));
+</script>
+</body>
+</html>

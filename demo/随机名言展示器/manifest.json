@@ -1,0 +1,20 @@
+{  
+    "name": "随机名言展示器",  
+    "manifest_version":2, 
+    "version": "1.0",  
+    "description": "为你的新标签页增添一些乐趣吧。在新标签页上随机展示名言，让新标签页不再枯燥。",
+    "icons":{
+    	"16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    },
+    "browser_action": {  
+      "default_icon": "icon.png" ,
+      "default_title": "随机名言展示器",
+      "default_popup": "index.html"
+    },
+    "chrome_url_overrides": {
+    	"newtab": "index.html"
+ 	}
+
+}

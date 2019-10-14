@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>6.3继承</title>
+</head>
+<body>
+	<h1>6.3继承</h1>
+	<p>接口继承和实现继承</p>
+	<ol>
+		<li>原型链<p>利用原型让一个引用类型继承另一个引用类型的属性和方法。
+			一个原型指向一个对象的实例，该实例具有一个指向原型的指针，
+			该原型又指向一个新的实例，就构成了原型和实例的链条</p>
+			<ul><b>谨慎的定义方法</b>
+				<li>给原型添加方法的代码必须放在替换原型的语句之后</li>
+				<li>不能使用对象字面量创建原型，这样会重写原型链</li>
+			</ul>
+			<br>
+			<ul><b>原型链的问题</b>
+				<li>包含引用类型值的原型链会共享属性值</li>
+				<li>创建子类型的实例时，不能向超类型的构造函数中传递参数</li>
+			</ul>
+		</li>
+		<li>借用构造函数<p>在子类型构造函数的内部调用超类型构造函数apply(),call()</p></li>
+		<li>组合继承
+			<p>把原型链继承和构造函数继承结合起来，既通过在原型上构造函数实现了函数的复用，又能够保证每个实例都有自己的属性</p>
+		</li>
+		<li>原型式继承</li>
+		<li>寄生式继承</li>
+		<li>寄生组合式继承：是最理想的继承方法</li>
+	</ol>
+	<script type="text/javascript">
+		//原型链
+		function test6_3_1(){
+			function SuperType(){
+				this.property=true;
+			}
+			SuperType.prototype.getSuperValue=function(){
+				return this.property;
+			};
+			function SubType(){
+				this.subproperty=false;
+			}
+			//继承了SuperType
+			SubType.prototype=new SuperType();
+			SubType.prototype.getSubValue=function(){
+				return this.subproperty;
+			};
+			var instance=new SubType();
+				//SubType的原型是SuperType的实例+指向SubType原型的指针
+			alert("SubType.getSuperValue: "+instance.getSuperValue());	//true
+			alert("SubType.getSubValue: "+instance.getSubValue());		//false
+			//*******确定原型和实例的关系
+				//使用instanceof
+			alert("F1.和Object： "+(instance instanceof Object));		//true
+			alert("F1.和SuperType："+(instance instanceof SuperType));	//true
+			alert("F1.和SubType："+(instance instanceof SubType));		//true
+				//使用isPrototypeOf()
+			alert("F2.和Object： "+Object.prototype.isPrototypeOf(instance));		//true
+			alert("F2.和SuperType："+SuperType.prototype.isPrototypeOf(instance));	//true
+			alert("F2.和SubType："+SubType.prototype.isPrototypeOf(instance));		//true
+			//*******谨慎的定义方法
+				//给原型添加方法的代码必须放在替换原型的语句之后
+				//不能使用对象字面量创建原型，这样会重写原型链
+		}
+		//test6_3_1();
+		//借用构造函数
+		function test6_3_2(){
+			function SuperType(){
+				this.colors=["red","blue","green"];
+			}
+			function SubType(){
+				//继承了SuperType
+				SuperType.call(this);
+			}
+			var instance1=new SubType();
+			instance1.colors.push("black");
+			alert("colors1: "+instance1.colors);	//red,blue,green,black
+			
+			var instance2=new SubType();
+			alert("colors2: "+instance2.colors);	//red,blue,green
+			
+			//******传递参数
+			function PersonType(name){
+				this.name=name;
+			}
+			function PerType(){
+				//继承了SuperType
+				PersonType.call(this,"Greg");
+				
+				//实例属性
+				this.age=29;
+			}
+			var instance3=new PerType();
+			alert("name: "+instance3.name);	//red,blue,green,black
+			alert("age: "+instance3.age);	//red,blue,gre
+		}
+		//test6_3_2();
+		//创建子类Child，使用原型和构造函数的方式继承父类People的方法，并调用say函数说出姓名和年龄。
+			//原型方法
+		function testTipsPro(){
+			function people(name,age){
+				this.name=name;
+				this.age=age;
+				this.say=function(){
+					alert("my name is "+this.name);
+				}
+			}
+			function child(name,age){
+				this.name=name;
+				this.age=age;
+			}
+			child.prototype=new people();
+			var childAmy=new child("Amy",20);
+			childAmy.say();
+		}
+		//testTipsPro();
+		//构造函数继承
+		function testTipsCall(){
+			function people(name,age){
+				this.name=name;
+				this.age=age;
+				this.say=function(){
+					alert("my name is "+this.name);
+				}
+			}
+			function child(name,age){
+				people.call(this);
+				this.name=name;
+				this.age=age;
+				
+			}
+			//child=new people();
+			var childAmy=new child("Amy",20);
+			childAmy.say();
+		}
+		//testTipsCall();
+		//数组去重，利用es6里的新数据类型set没有重复值的特性
+		//方法从一个类似数组或可迭代对象中创建一个新的，浅拷贝的数组实例。
+		var num=[1,2,3,4,5,5,4,3,2,1,6]
+		function distinct(a) {
+		    return Array.from(new Set([...a]))
+		}
+		var num1=distinct(num);
+		//console.log(num1);
+
+		//写一个函数通过如下调用实现输出结果是8（2*2*2） test(2)(2)(2);
+		function test(a){
+		    var ans = function(b){
+		        return test(a * b);
+		    }
+		    ans.toString = function(){
+		        return a;
+		    }
+		    return ans;
+		}
+		//console.log(test(2)(2)(2));
+		//****组合继承
+		function test6_3_3(){
+			function Supertype(name){
+				this.name = name;
+				this.colors = ['red','blue','yellow'];
+			}
+			Supertype.prototype.sayName = function(){
+				console.log(this.name);
+			};
+			function Subtype(name,age){
+				//继承属性
+				Supertype.call(this,name);
+				this.age=age;
+			}
+			//继承方法
+			Subtype.prototype = new Supertype();
+			Subtype.prototype.constructor = Subtype;
+			//子对象的原型的方法
+			Subtype.prototype.sayAge = function(){
+				console.log(this.age);
+			};
+			//创建子对象的实例
+			console.log("创建了子对象的实例1：");
+			var instance1 = new Subtype("Nicholas",29);
+			instance1.colors.push("black");	//["red", "blue", "yellow", "black"]
+			console.log(instance1.colors);
+			instance1.sayName();
+			instance1.sayAge();
+
+			console.log("创建子对象的实例2：");
+			var instance2 = new Subtype("Amy",18);
+			console.log(instance2.colors);	//["red", "blue", "yellow"]
+			instance2.sayName();
+			instance2.sayAge();
+			//两个实例都有各自的属性，和方法，属性不会互相影响
+		}
+		//test6_3_3();
+		//原型式继承
+		function test6_3_4(){
+			var person = {
+				name:"Greg",
+				age:20,
+				//会被创建的新的对象共享
+				friends:["Shelby","Court","Van"],
+			};
+			var person1=Object.create(person);
+			person1.name="Amy";
+			person1.friends.push("Rob");
+
+			var person2=Object.create(person);
+			person2.name="Linda";
+			person2.friends.push("Barbie");
+			//friends属性是共享的-->包含引用类型的属性都是共享的
+			alert(person.friends);	//"Shelby","Court","Van",Rob,Barbie
+			//name属性是独立的
+			alert(person1.name);	//Amy
+			alert(person1.age);		//20
+
+			//****函数另一个参数,参数格式
+			var person3 = Object.create(person,{
+				name:{value:"Alice"}
+			});
+			//覆盖原型对象的同名属性的值
+			alert("person:"+person.name);	//Greg
+			alert("person3:"+person3.name);	//Alice
+
+		}
+		//test6_3_4();
+		//寄生式继承
+		//*******不能做到函数复用
+		function test6_3_5(){
+			function creatAnother(parent){
+				//可以使用任何可以返回新对象的函数
+				var clone = Object(parent);
+				clone.sayHi = function(){
+					alert("Hi");
+				};
+				return clone;
+			}
+			var person = {
+				name:"Greg",
+				age:20,
+				friends:["Shelby","Court","Van"],
+			};
+			var person1=creatAnother(person);
+			person1.sayHi();
+		}
+		//test6_3_5();
+		//寄生组合式继承——>就是在寄生式的函数里放入原型赋值的过程
+		function test6_3_6(){
+			function inheritPrototype(subtype,supertype){
+				var prototype=Object(supertype.prototype);
+				prototype.constructor=subtype;
+				subtype.prototype=prototype;
+			}
+			function supertype(name){
+				this.name=name;
+				this.colors=["red","blue","green"];
+			}
+			supertype.prototype.sayName=function(){
+				alert(this.name);
+			}
+			function subtype(name,age){
+				supertype.call(this,name);
+				this.age=age;
+			}
+			inheritPrototype(subtype,supertype);
+			subtype.prototype.sayAge=function(){
+				alert(this.age);
+			}
+			subtype.prototype=new supertype();
+			var instance = new subtype("Amy",30);
+			instance.sayName();		//"Amy"
+			instance.sayAge();		//30
+		}
+		test6_3_6();
+	</script>
+</body>
+</html>

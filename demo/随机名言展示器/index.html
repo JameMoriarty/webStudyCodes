@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>名言</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<div class="cards">
+		<div class="quote">"</div>
+		<div class="author">--</div>
+		<div class="buttons">
+			<button id="weibo" class="btn">微博</button>
+			<button id="qq" class="btn">QQ</button>
+			<button id="newQuote" class="btn">新名言</button>
+		</div>
+	</div>
+<style type="text/css">
+	html{
+		height: 100%;
+		width: 100%;
+	}
+	body{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		background: #16a085;
+		height: 100%;
+	}
+	.cards{
+		background: white;
+		border-radius: 30px;
+		box-shadow: 0 0 10px 5px rgba(0,0,0,0.2);
+		padding:2em; 
+		height: auto;
+		width: 22em;
+		display: inline-block;
+	}
+	.quote{
+		color: #16a085;
+		font-size: 20px;
+		font-weight: bolder;
+		height: auto;
+		/*display: inline-block;*/
+	}
+	.author{
+		color: #16a085;
+		font-size: 20px;
+		font-weight: lighter;
+		text-align: right;
+		margin: 5px 0 0 0;
+	}
+	.buttons{
+		width: 22em;
+		margin: 3em 0 0 0;
+		height: 3em;
+	}
+	.btn{
+		border: none;
+		outline: none;
+		border-radius: 10px;
+		color: white;
+		background: #16a085;
+		margin: 0 2em 0 0;
+		height: 2.5em;
+		width: 4em;
+		display: inline-block;
+		cursor: pointer;
+	}
+	#weibo{
+		float:left;
+	}
+	#qq{
+		float: left;
+	}
+	#newQuote{
+		margin: 0;
+		float: right;
+	}
+</style>
+<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>
