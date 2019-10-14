@@ -1,0 +1,95 @@
+body, .card::before{
+	background: url("https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture") 0/cover fixed;
+}
+html{
+	height: 100%;
+}
+body{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+/*实现毛玻璃效果*/
+.card{
+	position: relative;
+	background: hsla(0,0%,100%,.15);
+	overflow: hidden;
+	height: 15em;
+	width: 35em;
+	border-radius: 1em; 
+	padding:2em; 
+}
+.card::before{
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	filter: blur(20px);
+	margin: -40px;
+	z-index: -1;
+}
+.column1{
+	height: 5em;
+	width: 4em;
+	display: inline-block;
+}
+.column2{
+	height: 5em;
+	width: 4em;
+	display: inline-block;
+}
+.today{
+	font-size: 20px;
+	width: 17.5em;
+	float: left;
+}
+.today span{
+	margin: 6px 0 6px 5px;
+	font-size: 30px;
+	font-weight: bolder;
+}
+#city{
+	display:block;
+}
+.details{
+	float: right;
+	margin: 3em 0 0 0;
+}
+.tit{
+	float: left;
+}
+#msg{
+	margin: 5px 0 0 0;
+}
+.otherday{
+	margin: 0.5em 0 1em 0;
+	float: right;
+	width: 11em;
+	height: 15em;
+	border-left: 3px dashed #58a;
+}
+.day span{
+	display: block;
+	font-size: 12px;
+}
+.imgClone{
+	height: 3em;
+	width: 3em;
+}
+.day .deg{
+	display:inline-block;
+	bottom: 10px;
+	position: relative; 
+	font-weight: bold;
+	font-size: 18px;
+}
+.day{
+	margin: 0 0 0 1em;
+}
+.date{
+	text-align: right;
+}

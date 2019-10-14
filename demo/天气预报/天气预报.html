@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>what is the weather?</title>
+	<link rel="stylesheet" type="text/css" href="weather.css">
+	<script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div class="card">
+		<div class="today" id="Today">
+			<div class="tit">
+				<div id="pic">qingtian</div>
+				<span class="message" id="cond_txt">天气状况描述</span>
+				<span id="tmp">温度</span>
+				<span id="city">城市</span>
+			</div>
+			<div class="details">
+				<div class="column1">
+					<div v-for="tit in title" id="msg">{{tit}}</div>
+				</div>
+				<div class="column2">
+					<div v-for="msgt in msgToday" id="msg">{{msgt}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="otherday" id="otherday">
+			<div class="day" v-for="other in otherday">
+				<img v-bind:src="other.src" class="imgClone"></img>
+				<span class="deg">{{other.deg}}</span>
+				<span class="date">{{other.date}}</span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="weather.js"></script>
+</body>
+</html>
