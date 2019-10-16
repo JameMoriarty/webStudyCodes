@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>use css grid achieve "Grail model"</title>
+</head>
+<body>
+	<div class="header"></div>
+	<!--使用网格布局中间部分不需要再包裹一个div-->
+	<div class="left"></div>
+	<div class="middle"></div>
+	<div class="right"></div>
+
+	<div class="footer"></div>
+<style type="text/css">
+	body{
+		/*使用网格布局*/
+		display:grid;
+	}
+	.header{
+		height: 20px;
+		background: red;
+		/*从上到下，占第一行*/
+		grid-row: 1;
+		/*把浏览器页面分成了5列，占第1列到第5列*/
+		grid-column: 1/5;
+	}
+	.left{
+		height: 500px;
+		/*从上到下，占第二行*/
+		grid-row: 2;
+		/*占第1列到第2列*/
+		grid-column: 1/2;
+		background: orange;
+	}
+	.right{
+		height: 500px;
+		/*从上到下，占第二行*/
+		grid-row: 2;
+		/*占第4-5列*/
+		grid-column: 4/5;
+		background: cadetblue;
+	}
+	.middle{
+		width: 100%;
+		/*占第2行*/
+		grid-row: 2;
+		/*占2-4列*/
+		grid-column: 2/4;
+		background: rebeccapurple;
+	}
+	.footer{
+		height: 20px;
+		background: gold;
+		/*占第3行*/
+		grid-row: 3;
+		/*占1-5列*/
+		grid-column: 1/5;
+	}
+</style>
+</body>
+</html>

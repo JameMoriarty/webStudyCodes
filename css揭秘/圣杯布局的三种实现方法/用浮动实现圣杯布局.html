@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>use float achieve "Grail model"</title>
+</head>
+<body>
+	<div class="header"></div>
+	<div class="container">
+		<!--要将middle放在最前面，要让middle优先撑满container-->
+		<div class="middle"></div>
+		<div class="left"></div>
+		<div class="right"></div>
+	</div>
+	<div class="footer"></div>
+<style type="text/css">
+	.header,.footer{
+		height: 20px;
+		width: 100%;
+		background: red;
+	}
+	.container{
+		padding-left: 200px;
+		padding-right: 300px;
+		height: 500px;
+	}
+	.footer{
+		clear: both;
+		/*清除浮动，防止跟随上面的区域一起浮动*/
+	}
+	/*把middle、left、right都设置成float：left，并且把position改成relative*/
+	/*因为浮动的关系，[middle]会占据[container]的所有部分，而左右两块区域都会被挤到下面，但是，由于第一步设置了内边距的关系，[container]的左右各剩余了一块区域，且宽度与左右区域相同。*/
+	.container div{
+		position: relative;
+		float: left;
+	}
+	.left{
+		width: 200px;
+		background: pink;
+		height: 100%;
+		/*使用内边距将left元素推到上面左边的空隙中，margin-left要与元素宽度相同*/
+		margin-left: -100%;
+		/*此时元素不在空隙中，而在原来位置的上方，此时right元素到了left刚才在的位置。设置偏移量，让left元素左移*/
+		right: 200px;
+	}
+	.right{
+		width: 300px;
+		background: aqua;
+		/*给right元素设置一个右内边距和它的宽度相等*/
+		margin-right: -300px;
+		height: 100%;
+	}
+	.middle{
+		width: 100%;
+		background: yellow;
+		height: 100%;
+	}
+</style>
+</body>
+</html>
