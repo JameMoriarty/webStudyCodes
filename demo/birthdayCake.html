@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>birthdayCake</title>
+</head>
+<body>
+	<h1>Happy Birthday</h1>
+	<!--烛光-->
+	<div class="fire" id="fire">
+		<div class="flame"></div>
+		<div class="flame"></div>
+		<div class="flame"></div>
+		<div class="flame"></div>
+		<div class="flame"></div>
+	</div>
+	<!--蛋糕-->
+	<div class="candle"></div>
+	<div class="cream"></div>
+	<div class="cake"></div>
+	<div class="cakeBottom"></div>
+	<div class="plate">
+		<div class="blueberry"></div>
+		<div class="blueberry"></div>
+	</div>
+	<footer>from Gwq♥</footer>
+	<!--旗子-->
+	<div class="line">
+		<div class="flag"></div>
+		<div class="flag blue"></div>
+		<div class="flag yellow"></div>
+		<div class="flag green"></div>
+	</div>
+<style type="text/css">
+html{
+	height: 100%;
+}
+body{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 90%;
+	background: #7b68ee;
+}
+h1{
+	margin-top: -30px;
+	color: #2d254a;
+	font-size: 50px;
+	font-family: "Lucida Console";
+}
+footer{
+	color: #534598;
+	margin-top: 10px;
+	font-family: "Lucida Console";
+}
+.fire{
+	height:50px;
+	width: 20px;
+	transform-origin: bottom;
+	border-radius: 50%;
+	margin-top: -30px;
+}
+.flame{
+	height:30px;
+	width: 20px;
+	border-radius: 50%;
+	box-shadow: 0 0 100px 30px rgba(248, 233, 209, 0.2);
+	position: absolute;
+}
+.candle{
+	background: linear-gradient(45deg,white 25%,hotpink 0,hotpink 50%,white 0,white 75%,hotpink 0);
+	background-size: 100% 10px;
+	height: 50px;
+	width: 10px;
+	border-radius: 40%;
+}
+.cream{
+	width: 200px;
+	height: 40px;
+	border-radius: 30px;
+	background: linear-gradient(#fffdd0,white);
+	transform:translateY(-10px);
+}
+.cream::after{
+	content: "";
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: white;
+	position: absolute;
+	margin:25px 0 0 25px;  
+	animation: creamdrop 5s infinite;
+}
+.cake{
+	background:#b45000;
+	width: 170px;
+	height: 50px;
+	margin: -15px 0 0 0;
+}
+.cake::before{
+	background:#fffdd0;
+	background-image: radial-gradient(#e32636 60%,transparent 0);
+	background-size: 43px 40px;
+	content:"";
+	height: 15px;
+	width: 170px;
+	position: absolute; 
+	margin: 40px 0 0 0;
+}
+.cake::after{
+	background: #fffdd0;
+	content:"";
+	height: 5px;
+	width: 170px;
+	position: absolute;
+	margin: 55px 0 0 0;
+
+}
+.cakeBottom{
+	background:#b45000;
+	width: 170px;
+	height: 70px;
+	margin: -15px 0 0 0;
+}
+.plate{
+	background:white;
+	width: 350px;
+	height: 10px;
+	border-radius: 50%;
+	margin: -1px 0 0 0;
+}
+.blueberry{
+	background: radial-gradient(#192141,#2b1731);
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	border-radius: 50%;
+	margin: -30px 0 0 -7px;
+	transform: translate(50px,-13px);
+	transition: margin 2s;
+}
+.blueberry:hover{
+	margin:-30px 0 0 100px;
+}
+.flag{
+	width:0px;
+    height:0px;
+    position: absolute;
+    border-top:100px solid #e32636;
+    border-right:50px solid rgba(0,0,0,0);
+    border-bottom:100px solid rgba(0,0,0,0);
+    border-left:50px solid rgba(0,0,0,0);
+   	left: 190px;
+   	transform-origin: top;
+}
+.blue{
+	left: 90px;
+	border-top:100px solid #87ceeb;
+}
+.green{
+	left: 390px;
+	border-top:100px solid #4de680;
+}
+.yellow{
+	left: 290px;
+	border-top:100px solid #ffcc00;
+}
+.moveleft{
+	animation:fireMoveLeft 0.5s;
+}
+.moverigth{
+	animation:fireMoveRight 0.5s;
+}
+.flag:hover{
+	animation: flagmove 0.3s infinite;
+}
+.line{
+	position: absolute;
+	right: 0;
+	width: 500px;
+	height: 100px;
+	border-top: 2px solid black;
+	transform-origin:right top;
+	transform:rotate(45deg);
+}
+@keyframes flagmove{
+	from{transform: skewX(-10deg);}
+	to{transform: skewX(0deg)}
+}
+@keyframes fireMoveLeft{
+	from{transform: skewX(0deg);}
+	to{transform: skewX(30deg);}
+}
+@keyframes fireMoveRight{
+	from{transform: skewX(0deg);}
+	to{transform: skewX(-30deg);}
+}
+
+@keyframes flameMove{
+	0%{
+		background: rgba(254, 248, 97, 0.5);
+		transform:scale(1) translateY(20px);
+	}
+	50%{
+		background: rgba(255, 50, 0, 0.1);
+		transform:scale(0) translateY(-30px);
+	}
+	100%{
+		background: rgba(254, 248, 97, 0.5);
+		transform:scale(1) translateY(20px);
+	}
+}
+@keyframes creamdrop{
+	0%{
+		opacity: 1;
+		margin-top: 25px;
+	}
+	30%{
+		opacity: 0;
+		margin-top: 110px;
+	}
+	40%{
+		opacity: 0;
+		margin-top: 25px;
+	}
+	100%{
+		opacity: 1;
+		margin-top: 25px;
+	}
+}
+</style>
+<script type="text/javascript">
+	//******控制fire转动
+	var bd = document.body;
+	var fire = document.getElementById("fire");
+	function changeFire(event){
+		var e = event || window.event;
+		var mid = window.innerWidth / 2;
+		var x = e.clientX;
+		var y = e.clientY;
+		var w = Math.abs(mid-x);
+		var deg = Math.round(Math.atan(y/w) / (Math.PI / 180));
+		console.log(deg-5);
+		//当鼠标在火焰左侧移动时，火焰向右边倾斜
+		
+		//让火焰在鼠标到达距离很近时消失，离开后出现
+		if(w<=200){
+			fire.style.visibility="hidden";
+			fire.style.transform="skewX(0)";
+		}
+		else{
+			fire.style.visibility="visible";
+			if(x>mid){
+				fire.style.transform="skewX("+deg+"deg)";
+				console.log("to right");
+			}
+			if(x<mid){
+				fire.style.transform="skewX("+(-deg)+"deg)";
+				console.log("to left");
+			}
+			//fire.style.display="block";
+		}
+		//当鼠标在火焰右侧移动时，火焰向左侧倾斜
+		
+	}
+	//给body增加mousemove事件监听
+	bd.addEventListener("mousemove",changeFire);
+
+	//******火苗动画
+	var flame = document.getElementsByClassName("flame");
+	flame[0].style.animation="flameMove 2s infinite";
+	flame[1].style.animation="flameMove 1.5s infinite";
+	flame[2].style.animation="flameMove 1s infinite";
+	flame[3].style.animation="flameMove 0.5s infinite";
+	flame[4].style.animation="flameMove 0.5s infinite";
+</script>
+</body>
+</html>
