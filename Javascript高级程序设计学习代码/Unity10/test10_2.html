@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOM操作技术</title>
+</head>
+<body>
+	<h1>10.2.1动态脚本</h1>
+	<p>插入外部文件和行内方法</p>
+	<h1>10.2.2动态样式</h1>
+	<p>使用link来引入外部css,使用style来创建嵌入式css</p>
+	<h1>10.2.3操作表格</h1>
+<script type="text/javascript">
+	/*****动态脚本*/
+	//插入外部文件方法，可以封装成函数
+	function loadscript(url){
+		var script = document.createElement("script");
+		script.type="text/javascript";
+		script.src=url;
+		document.body.appendChild(script);
+	}
+	//行内元素方法
+	function loadScriptString(code){
+		var script=document.createElement("script");
+		script.type="text/javascript";
+		try{
+			script.appendChild(document.createTextNode(code));
+		}catch(ex){
+			script.text=code;
+		}
+		document.body.appendChild(script);
+	}
+	//loadScriptString("function sayHi(){alert('hi');}sayHi();");
+
+	/*******动态脚本*/
+	//使用link来引入外部css
+	function loadStyle(url){
+		var link = document.createElement("link");
+		link.rel="stylesheet";
+		link.type="text/css";
+		link.href=url;
+		var head = document.getElementsByTagName("head")[0];
+		head.appendChild(link);
+	}
+	//使用style来创建嵌入式css
+	function loadStyleString(css){
+		var style = document.createElement("style");
+		style.type="text/css";
+		try{
+			style.appendChild(document.createTextNode(css));
+		}catch(ex){
+			style.stylesheet.cssText=css;
+		}
+		var head = document.getElementsByTagName("head")[0];
+		head.appendChild(style);
+	}
+	loadStyleString("p{background:yellow;}");
+	/******操作表格*/
+	function creatTables(){
+		//创建表格
+		var table=document.createElement("table");
+		table.borders=1;
+		table.width="100%";
+		//创建tbody
+		var tbody=document.createElement("tbody");
+		table.appendChild(tbody);
+		//创建第一行
+		tbody.insertRow(0);
+		tbody.rows[0].insertCell(0);
+		tbody.rows[0].cells[0].appendChild(document.createTextNode("Cell 1,1"));
+		tbody.rows[0].insertCell(1);
+		tbody.rows[0].cells[1].appendChild(document.createTextNode("Cell 2,1"));
+		//创建第二行
+		tbody.insertRow(1);
+		tbody.rows[1].insertCell(0);
+		tbody.rows[1].cells[0].appendChild(document.createTextNode("Cell 1,2"));
+		tbody.rows[1].insertCell(1);
+		tbody.rows[1].cells[1].appendChild(document.createTextNode("Cell 2,2"));
+		//将表格添加到文档主体中
+		document.body.appendChild(table);
+	}
+	creatTables();
+</script>
+</body>
+</html>

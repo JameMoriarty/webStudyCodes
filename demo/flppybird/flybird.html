@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>flybird</title>
+</head>
+<body>
+	<div>
+		<div id="message" onclick="start()"></div>
+		<div id="score">
+			<img id="gameover" src="sprites/gameover.png">
+			<div id="scoreNum"></div>
+			<div id="play" onmousedown="play()" onmouseup="playAudio()">PLAY</div>
+		</div>
+		<canvas id="canvas" height="400" 
+			width="800"></canvas>
+	</div>
+	<audio id="audioPoint"></audio>
+	<audio id="audioFly"></audio>
+	<audio id="audioDie"></audio>
+<style type="text/css">
+	body{
+		margin: 0;
+		height: 100%;
+		background:#eee;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	html{
+		height: 100%;
+		margin: 0;
+	}
+	#canvas{
+		background-image:url("sprites/background-day.png");
+	}
+	#message{
+		position: absolute;
+		top:150px;
+		left: 550px;
+		background-image: url("sprites/message.png");
+		background-repeat:no-repeat;
+		z-index: 11;
+		height: 300px;
+		width: 200px;
+		cursor: pointer;
+	}
+	#score{
+		display: none;
+		position: absolute;
+		top:200px;
+		left: 550px;
+		z-index: 10;
+	}
+	#scoreNum{
+		margin: 5px 0 0 0;
+		text-align: center;
+	}
+	#play{
+		margin: 5px 0 0 0;
+		text-align: center;
+		font-size: 30px;
+		font-weight: bolder;
+		color: yellow;
+		cursor: pointer;
+	}
+</style>
+<script type="text/javascript">
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext("2d");
+	//获取audio播放音效
+	var audioF = document.getElementById("audioFly");
+	var audioP = document.getElementById("audioPoint");
+	var audioD = document.getElementById("audioDie");
+	//*****创建一个图片
+	//小鸟图片
+	var img = new Image();
+	img.src="sprites/yellowbird-upflap.png";
+	//分数图片数组
+	var scores = [];
+	for(var k=0;k<10;k++){
+		scores[k]="sprites/"+k+".png";
+	}
+
+	//设置图片坐标
+	var birdX=100;
+	var birdY=200;
+	var birdTimer=null;
+	//是否死亡标签
+	var death = false;
+	//分数
+	var mark = 0;
+
+	function start(){
+		var message = document.getElementById("message");
+		message.style="display:none";
+		//点击音效
+		audioF.src="";
+		audioP.src="audio/point.wav";
+		audioP.play();
+		//等待图片加载完成
+		img.onload = function(){
+			if(birdTimer == null){
+				birdTimer = setInterval(function(){
+				//防止小鸟飞出屏幕外
+					if(birdY<=390){
+						birdY ++;
+					}
+					//清空上一帧
+					context.clearRect(0,0,800,500);
+					//绘制小鸟图片，坐标，大小
+					context.drawImage(img,birdX,birdY);
+					//绘制管道，并检测碰撞
+					drawColumn(); 
+				},30);
+			}
+			
+		}
+	}
+	
+	//点击事件
+	document.onmousedown = function(){
+		img.src="sprites/yellowbird-downflap.png";
+		birdY -=30;
+		//飞翔音效
+		audioF.src="audio/wing.wav";
+		audioF.play();
+	};
+	document.onmouseup = function(){
+		img.src="sprites/yellowbird-upflap.png";
+	};
+	
+	//创建单个柱子
+	var columnArr = [];
+	var columnTimer = null;
+	function creatColumn(){
+		//承载柱子的容器
+		var column = {};
+		column.x = 800;
+		column.y = -Math.round(Math.random()*100+100);
+		column.A = new Image();
+		column.B = new Image();
+		column.A.src="sprites/pipe-green.png";
+		column.B.src="sprites/pipe-green.png";
+
+		//柱子的标志
+		column.id = new Date().getTime();
+		columnArr.push(column);
+		console.log(column);
+	}
+	//批量产生柱子
+	function createColumns(){
+		columnTimer = setInterval(function(){
+			creatColumn();
+		},3500);
+	}
+	createColumns();
+	//分数
+	var same = null;
+	function drawColumn(){
+		for(var i=0;i<columnArr.length;i++){
+			columnArr[i].x --;
+			context.drawImage(columnArr[i].A,columnArr[i].x,columnArr[i].y);
+			context.drawImage(columnArr[i].B,columnArr[i].x,columnArr[i].y+400);
+
+			//判断小鸟经过柱子
+			if(birdX+34>columnArr[i].x && birdX<columnArr[i].x+52){
+				//console.log("经过");
+				if(columnArr[i].id!=same){
+					mark++;
+					same = columnArr[i].id;
+					console.log("得分：" + mark);
+				}
+				//判定碰撞
+				if(birdY<columnArr[i].y+320 || birdY+24>columnArr[i].y+400){
+						console.log("death");
+						//清空计数器，让游戏停下
+						clearInterval(columnTimer);
+						clearInterval(birdTimer);
+						//死亡音效
+						audioD.src="audio/die.wav";
+						audioD.play();
+						audioF.src="";
+						//让小鸟掉下去
+						var birdDeathTimer = setInterval(function(){
+							birdY ++;
+							birdX +=0.5;
+							//清空上一帧
+							context.clearRect(0,0,800,500);
+							//绘制小鸟图片，坐标，大小
+							context.drawImage(img,birdX,birdY);
+							context.restore();
+						},10);
+						if(birdY>=380){
+							clearInterval(birdDeathTimer);
+						}
+						//死亡之后显示提示和分数
+						var msg = document.getElementById("score");
+						msg.style = "display:block";
+						var scoreN = document.getElementById("scoreNum");
+						var num = mark.toString().split("");
+						var scoreX=60;
+						for(var j=0;j<num.length;j++){
+							var numimg = document.createElement("img");
+							numimg.src=scores[num[j]];
+							scoreN.appendChild(numimg);
+						}
+				}
+			}
+		}
+	}
+	//开始游戏
+	function play(){
+			//刷新
+			location.reload();
+	}
+	function playAudio(){
+		//点击音效
+		audioF.src="";
+		audioP.src="audio/point.wav";
+		audioP.play();
+	}
+</script>
+</body>
+</html>
