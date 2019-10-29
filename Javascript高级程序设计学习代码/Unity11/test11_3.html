@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Unity11.3HTML5</title>
+</head>
+<body>
+    <h1 class="title">11.3 HTML5</h1>
+    <p>html5规则围绕如何使用新增标记定义了大量的Javascript API</p>
+    <h1 class="title">11.3.1 类相关的扩充</h2>
+    <ul id="ultitle">
+        <li class="list">getElementsByClassName()
+            <p>接受一个或多个类名的字符串，返回包含指定类名的所有元素的nodelist</p>
+        </li>
+        <li class="list">classList
+            <p></p>
+        </li>
+    </ul>
+    <style>
+        .yellow{
+            background: yellow;
+        }
+        .underline{
+            border-bottom: 2px solid cornflowerblue;
+        }
+        .title{
+            color:darkmagenta;
+        }
+    </style>
+    <script>
+        /*****11.3 HTML5*/
+        /*******11.3.1 类相关的扩充*/
+        /*********getElementsByClassName()*/
+        function test11_3_1(){
+            //取得所有类名包含title和list的元素
+            var TitleAListArr = document.getElementsByClassName("title list");
+            //取得所有id是ultitle中的类名中包含list的元素
+            var ListInTitleArr = document.getElementById("ultitle").getElementsByClassName("list");
+            console.log("TitleAListArr: "+TitleAListArr);
+            console.log("ListInTitleArr: "+ListInTitleArr);
+        }
+        test11_3_1();
+        /*********classList*/
+        function test11_3_1_2(){
+            var h1 = document.getElementsByTagName("h1");
+            for(var i=0,len=h1.length;i<len;i++){
+                //添加类
+                h1[i].classList.add("yellow");
+                //如果有类就删除类，没有就添加类
+                h1[i].classList.toggle("underline");
+                //删除类
+                h1[i].classList.remove("title");
+                //确定元素中是否包含类名
+                console.log(i+": "+h1[i].classList.contains("yellow"));
+            }
+            //迭代classlist
+            for(var j=0,len = h1[0].classList.length;j<len;j++){
+                console.log(h1[0].classList.item(j));
+            }
+        }
+        test11_3_1_2();
+    </script>
+</body>
+</html>

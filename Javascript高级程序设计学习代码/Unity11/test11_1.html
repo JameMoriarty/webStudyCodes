@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Unity11.1Dom扩展</title>
+</head>
+<body>
+    <h1>Dom扩展</h1>
+    <p>两个主要扩展是Selectors API和HTML5</p>
+    <div id="mydiv"></div>
+    <h1>11.1选择符API</h1>
+    <ul>
+        <li class="yellow" id="yellow">querySelector()
+            <p>接受一个CSS选择符，并返回与选择符匹配的第一个元素，没找到则显示null</p>
+        </li>
+        <li>querySelectorAll()
+            <p>接受一个css选择符，返回一个nodelist实例，没有匹配对象时nodelist就是空的</p>
+        </li>
+        <li>matchesSelector()
+            <p>接受一个CSS选择器参数，如果调用该方法的元素与该选择器匹配，则返回true，否则返回false。支持性目前不太广。</p>
+        </li>
+    </ul>
+    <h1>11.2元素遍历</h1>
+    <ul>
+        <li>childElementCount：返回子元素的个数</li>
+        <li>firstElementChild：返回第一个子元素</li>
+        <li>lastElementChild：返回最后一个子元素</li>
+        <li>previousElementSibling：指向前一个前辈元素</li>
+        <li>nextElwmwntSibling：指向后一个前辈元素</li>
+    </ul>
+    <style>
+        .yellow{
+            background: yellow;
+        }
+        #mydiv{
+            background: cornflowerblue;
+            height: 10px;
+            width: 100%;
+        }
+    </style>
+    <script>
+        /*****11.1选择符API*/
+        /*******11.1.1 querySelector()*/
+        function test1_1_1(){
+            //取得body元素
+            var body = document.querySelector("body");
+            //取得id为mydiv的元素
+            var mydiv = document.querySelector("#mydiv");
+            //取得类为selected的元素
+            var selected = document.querySelector(".selected");
+            //取得类为yellow的第一个li元素
+            var yellowLi = document.querySelector("li.yellow");
+            console.log("body: "+body);
+            console.log("mydiv: "+mydiv);
+            console.log("selected: "+selected);
+            console.log("yellowLi: "+yellowLi);
+        }
+        //test1_1();
+        /*******11.1.2 querySelectorAll()*/
+        function test1_1_2(){
+            //取得所有ul里的li元素
+            var lis = document.querySelectorAll("ul li");
+            //取得某class为yellow的所有p元素
+            var yellowps = document.getElementById("yellow").querySelectorAll("p");
+            //取得类为yellow的所有元素
+            var yellows = document.querySelectorAll(".yellow");
+            console.log("lis: "+lis);
+            //通过遍历nodelist，返回每一个元素
+            for(var i =0,len = lis.length;i<len;i++){
+                console.log(lis.item(i));
+            }
+            console.log("yellowps: "+yellowps);
+            console.log("yellows: "+yellows);
+        }
+        //test1_1_2();
+        /*******11.1.3 matchesSelector()*/
+        /*使用包装函数*/
+        function matchesSelector(element,selector){
+            if(element.matchesSelector){
+                return element.matchesSelector(selector);
+            }else if(element.msMatchesSelector){
+                return element.msMatchesSelector(selector);
+            }else if(element.mozMatchesSelector){
+                return element.mozMatchesSelector(selector);
+            }else if(element.webkitMatchesSelector){
+                return element.webkitMatchesSelector(selector);
+            }else{
+                throw new Error("Not supported!");
+            }
+        }
+        //调用函数
+        if(matchesSelector(document.body,"body")){
+            //执行操作
+            console.log("存在body");
+        }
+        console.log(matchesSelector(document.body,"body"));
+
+        /*****11.2元素遍历*/
+        /*跨浏览器遍历body元素的子元素*/
+        var i,len,child = document.body.firstElementChild;
+        while(child != document.body.lastElementChild){
+            //processChild(child);    //已知其是元素
+            console.log(child);
+            child = child.nextElementSibling;
+        }
+    </script>
+</body>
+</html>
