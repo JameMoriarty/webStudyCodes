@@ -15,9 +15,68 @@
             <p>接受一个或多个类名的字符串，返回包含指定类名的所有元素的nodelist</p>
         </li>
         <li class="list">classList
-            <p></p>
+            <p>classList中是一个包含所有类名的字符串，用来删除、添加、修改类</p>
+            <pre>
+            	//添加类
+            	h1[i].classList.add("yellow");
+
+                //如果有类就删除类，没有就添加类
+                h1[i].classList.toggle("underline");
+                
+                //删除类
+                h1[i].classList.remove("title");
+                
+                //确定元素中是否包含类名
+                console.log(i+": "+h1[i].classList.contains("yellow"));
+            </pre>
         </li>
     </ul>
+    <h1 class="title">11.3.2 焦点管理</h2>
+    <h1 class="title">11.3.3 HTMLDocument的变化</h2>
+    <ol>
+    	<li>readyState
+			<p>document.readyState表示文档加载状况：loading 正在加载；complaye 加载完成</p>
+    	</li>
+    	<li>compatMode
+			<p>doument.compatMode表示渲染页面模式是标准的还是混杂的：CSS1Compat 标准；BackCompat 混杂</p>
+    	</li>
+    	<li>head
+			<p>document.head引用head元素</p>
+    	</li>
+    </ol>
+    <h1 class="title">11.3.4 字符集属性</h2>
+    <p>document.charset</p>
+	<h1>11.3.5 自定义数据属性</h1>
+	<p>添加前缀data-，为元素提供与渲染无关的信息，或者提供语义信息，这些属性可以任意添加，随便命名</p>
+	<div id="mydiv" data-appId="12345" data-myname="Nicholas"></div>
+    <h1 id="mark">11.3.6 插入标记</h1>
+    <ul>
+        <li id="inner">innerHTML
+            <p>在读模式下，返回与调用元素的所有子节点对应的html标记。在写模式下，更改调用元素的子节点</p>
+            <p>如果插入字符串一开始就是一个“无作用域的元素”(script)，那么这个字符串就会被删掉，变成空字符。所以需要在script元素前写一个有作用域的元素，一般是innerHTML="< input type='hidden'>< script>alert('hello');</ script>"</p>
+            <p>大多数浏览器都支持以直观的方式直接使用innerHTML来插入style</p>
+            <p>不支持innerHTML的元素：col、colgroup、frameset、head、html、style、table、thead、tfoot、tr</p>
+            <p class="waring">无论什么时候，只要使用innerHTML从外部插入HTML代码，都应该先以可靠的方式处理HTML</p>
+        </li>
+        <li id="outer">outerHTML
+            <p>在读模式下，返回调用他的元素以及所有子节点的HTML标签。在写模式下，会根据指定的HTML字符串创建新的DOM子树，然后用这个DOM子树完全替换调用元素</p>
+        </li>
+        <li id="insert">insertAdjacentHTML
+            <p>接受两个参数：插入位置和要插入的html文本</p>
+            <ul>第一个参数的值：
+                <li>beforebegin：在当前元素之前插入一个紧邻的同辈元素</li>
+                <li>afterbegin：在当前元素之下插入一个新的元素或者在第一个子元素之前再插入新的子元素</li>
+                <li>beforeend：在当前元素之下插入一个新的元素或者在最后一个子元素之后再插入一个新的子元素</li>
+                <li>afterend：在当前元素之后插入一个紧邻的同辈元素</li>
+            </ul>
+        </li>
+        <li>内存与性能问题
+            <p>在使用以上的击中方法时，要先手工删除要被替换的元素的所有事件处理程序和Javascript对象属性。</p>
+            <p>频繁使用以上方法会造成浏览器内存占用问题</p>
+        </li>
+    </ul>
+    <h1 id="scroll">scrollIntoView</h1>
+    <p>为true或不填参数为，通过滚动页面使元素出现在视口顶端；如果参数为false，则是让元素出现在视口底端</p>
     <style>
         .yellow{
             background: yellow;
@@ -27,6 +86,11 @@
         }
         .title{
             color:darkmagenta;
+        }
+        .waring{
+            color: red;
+            border-left: 3px solid red;
+            padding: 0 0 0 5px;
         }
     </style>
     <script>
@@ -55,12 +119,55 @@
                 //确定元素中是否包含类名
                 console.log(i+": "+h1[i].classList.contains("yellow"));
             }
-            //迭代classlist
+            //迭代classlist·
             for(var j=0,len = h1[0].classList.length;j<len;j++){
                 console.log(h1[0].classList.item(j));
             }
         }
-        test11_3_1_2();
+        //test11_3_1_2();
+        /*******HTMLDocument的变化*/
+        function test11_3_3(){
+        	//document.readyState表示文档加载状况：loading 正在加载；complaye 加载完成
+        	console.log("document.readyState: "+document.readyState);
+        	//doument.compatMode表示渲染页面模式是标准的还是混杂的：CSS1Compat 标准；BackCompat 混杂
+        	console.log("doument.compatMode: "+document.compatMode);
+        	//document.head引用head元素
+        	console.log("document.head: "+document.head);
+        }
+        //test11_3_3();
+        //******字符集属性
+        console.log("document.charset: "+document.charset);
+        //******插入标记
+        function test11_3_6(){
+            //innerHTML
+            //只影响子元素
+            var inner = document.getElementById("inner");
+            console.log(inner.innerHTML);
+            inner.innerHTML = "<input type='hidden'><\/input><script defer>alert('hello');<\/script>";
+            //outerHTML\
+            //影响包括调用元素以及子元素
+            var outer = document.getElementById("outer");
+            console.log(outer.outerHTML);
+            outer.outerHTML = "<p>somthing<\/p>"
+            //insertAdjacentHTML
+            var insert = document.getElementById("insert");
+            // beforebegin：在当前元素之前插入一个紧邻的同辈元素
+            insert.insertAdjacentHTML("beforebegin","<li>insert</li>");
+            // afterbegin：在当前元素之下插入一个新的元素或者在第一个子元素之前再插入新的子元素
+            insert.insertAdjacentHTML("afterbegin","<p>insert1</p>");
+            // beforeend：在当前元素之下插入一个新的元素或者在最后一个子元素之后再插入一个新的子元素
+            insert.insertAdjacentHTML("beforeend","<p>insert2</p>");
+            // afterend：在当前元素之后插入一个紧邻的同辈元素
+            insert.insertAdjacentHTML("afterend","<li>insert3</li>");
+        }
+        //test11_3_6();
+        //scrollIntoView
+        function test11_3_7(){
+            var scroll = document.getElementById("mark");
+            scroll.scrollIntoView();
+            console.log(scroll);
+        }
+        test11_3_7();
     </script>
 </body>
 </html>

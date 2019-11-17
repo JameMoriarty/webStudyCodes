@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>梦幻西游</title>
+</head>
+<style>
+    body{
+        height: 100%;
+        margin: 0;
+        background-image: url(./images/ft2_7b14393.webp);
+    }   
+    .people-box{
+        height: 200px;
+        width: 760px;
+        /* background-color: aquamarine; */
+        margin: 300px auto;
+    }
+    .west{
+        height: 200px;
+        width: 190px;
+        /* background: blueviolet; */
+        float: left;
+        background-repeat: no-repeat;
+    }
+    .west:nth-child(1){
+        background-image: url(./images/west_01.png);
+        animation: move1 1.4s steps(8) infinite;
+    }
+    .west:nth-child(2){
+        background-image: url(./images/west_02.png);
+        animation: move2 1.4s steps(8) infinite;
+    }
+    .west:nth-child(3){
+        margin-top: -20px;
+        height: 240px;
+        width: 180px;
+        background-image: url(./images/west_03.png);
+        animation: move3 1.4s steps(8) infinite;
+    }
+    .west:nth-child(4){
+        background-image: url(./images/west_04.png);
+        animation: move4 1.4s steps(8) infinite;
+    }
+
+    @keyframes move1{
+        from{
+            background-position-x: 0;
+        }
+        to{
+            background-position-x: -1600px;
+        }
+    }
+    @keyframes move2{
+        from{
+            background-position-x: 0;
+        }
+        to{
+            background-position-x: -1600px;
+        }
+    }
+    @keyframes move3{
+        from{
+            background-position-x: 0;
+        }
+        to{
+            background-position-x: -1360px;
+        }
+    }
+    @keyframes move4{
+        from{
+            background-position-x: 0;
+        }
+        to{
+            background-position-x: -1680px;
+        }
+    }
+</style>
+<body>
+    <div id="footer">
+        <div class="people-box">
+            <div class="west"></div>
+            <div class="west"></div>
+            <div class="west"></div>
+            <div class="west"></div>
+        </div>
+    </div>
+</body>
+</html>

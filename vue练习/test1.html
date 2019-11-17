@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vue基础</title>
+</head>
+<style type="text/css">
+	#app{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	[v-cloak]{
+		display: none;
+	}
+	
+	.circlebar{
+		margin: 5px;
+		height: 100px;
+		width: 100px;
+		border-radius: 50%;	
+		line-height: 100px;
+		text-align:center;
+	}
+	.circlebar::before{
+		content: "";
+		position: absolute;
+		height: 50px;
+		width: 50px;
+		/*四分之一圆*/
+		border-radius: 100px 0 0 0;
+		background: #58a;
+		transform-origin: right bottom;
+		animation: circle 2s infinite;
+		z-index: -2;
+		margin: 0 0 0 -30px;
+	}
+	.circlebar::after{
+		content: "";
+		position: absolute;
+		height: 95px;
+		width: 95px;
+		border-radius: 50%;
+		overflow: hidden;
+		background: #fff;
+		margin: 3px 0 0 -60px;
+		z-index: -1;
+	}
+	@keyframes circle{
+		from{
+			transform: rotate(0deg);
+		}
+		to{
+			transform: rotate(360deg);
+		}
+	}
+</style>
+<body>
+	<div id="app">
+		<!--v-once 执行一次性地插值，当数据改变时，插值处的内容不会更新。-->
+		<div v-once>+++{{ msg }}----</div>
+		<!--解决闪烁问题-->
+		<div v-cloak>{{msg}}</div>
+		<!--和插值表达式功能一样，但是v-text没有闪烁问题，v-text会覆盖元素中原本的值-->
+		<div v-text="msg">==========</div>
+		<!--会解析变量中的html标签-->
+		<div v-html="h"></div>
+		<!--v-bind 数据绑定-->
+		<button v-bind:title="btn">button</button>
+		<!-- 简写形式 -->
+		<button :title="btn">button</button>
+		<!-- v-on绑定事件，可定义浏览器端常见的事件，缩写@ -->
+		<button v-on:click="show">按钮</button>
+		
+		<div class="circlebar">20%
+			<!-- <span>20%</span> -->
+		</div>
+	</div>
+
+	<!--引入vue-->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	
+	<script type="text/javascript">
+		var app = new Vue({
+			el:"#app",
+			data:{
+				msg:"hello world",
+				h:"<h1>这是一个大标题</h1>",
+				btn:"这是一个按钮"
+			},
+			// 定义了当前vue实例所有可用的方法
+			methods:{
+				show:function(){
+					alert('hello');
+				}
+			}
+		})
+	</script>
+</body>
+</html>
